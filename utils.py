@@ -6,14 +6,14 @@ import numpy as np
 from average_meter import AverageMeter
 
 
-def split_dataset():
-    os.makedirs('/content/images/train/class/', exist_ok=True)
-    os.makedirs('/content/images/val/class/', exist_ok=True)
-    for i, file in enumerate(os.listdir('/content/landscape')):
+def split_dataset(path):
+    os.makedirs('images/train/class/', exist_ok=True)
+    os.makedirs('images/val/class/', exist_ok=True)
+    for i, file in enumerate(os.listdir(path)):
         if i < 1000:
-            os.rename('/content/landscape/' + file, '/content/images/val/class/' + file)
+            os.rename(path + '/' + file, 'images/val/class/' + file)
         else:
-            os.rename('/content/landscape/' + file, '/content/images/train/class/' + file)
+            os.rename(path + '/' + file, 'images/train/class/' + file)
 
 
 def convert_to_rgb(grayscale_input, ab_input, save_path=None, save_name=None):
@@ -50,7 +50,7 @@ def validate(val_loader, model, criterion, save_images, epoch, device):
         if save_images and not already_saved_images:
             already_saved_images = True
             for j in range(min(len(output_ab), 10)):
-                save_path = {'grayscale': '/content/outputs/gray/', 'colorized': '/content/outputs/color/'}
+                save_path = {'grayscale': 'outputs/gray/', 'colorized': 'outputs/color/'}
                 save_name = 'img-{}-epoch-{}.jpg'.format(i * val_loader.batch_size + j, epoch)
                 convert_to_rgb(input_gray[j].cpu(), ab_input=output_ab[j].detach().cpu(), save_path=save_path,
                                save_name=save_name)
