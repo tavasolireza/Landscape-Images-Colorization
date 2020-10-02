@@ -15,6 +15,8 @@ ap.add_argument("-i", "--image", required=True,
 ap.add_argument("-e", "--epochs", type=int, default=100,
                 help="# of epochs")
 args = vars(ap.parse_args())
+
+# split the landscape dataset to train and validation folders
 split_dataset(args["image"])
 
 # Training
